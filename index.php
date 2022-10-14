@@ -1,26 +1,23 @@
 <?php
 
-class Person {
-    use HasEyes;
-}
-
-class Dog {
-    use HasEyes;
-}
-
-class Fly {
-    use HasEyes;
-}
-
-trait HasEyes {
-    public $nrOfEyes;
-
-    public function canSeeThings(){
-        return $this->nrOfEyes>0;
+class Job {
+    public function work(){
+        $logger = new ConsoleLogger();
+        for($i=0; $i<10; $i++){
+            $logger->log($i);
+        }
     }
 }
 
-$person = new Person();
-$person->nrOfEyes = 2;
-var_dump($person->canSeeThings());
-var_dump($person);
+class ConsoleLogger {
+    public function log($message){
+        echo $message . "\n";
+    }
+}
+
+
+///////////////////////
+
+
+$job = new Job();
+$job->work();
