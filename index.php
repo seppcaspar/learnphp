@@ -1,41 +1,18 @@
-<?php
+<?php include 'partials/header.php'; ?>
+    <h1>Hello, world!</h1>
 
-class Job {
-    private $logger;
+    <form action="/page1.php" method="GET">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
 
-    public function __construct(Logger $logger)
-    {
-        $this->logger = $logger;
-    }
+    <ul>
+        <?php for($i=0;$i<100; $i++): ?>
+            <li>Item <?= $i ?></li>
+        <?php endfor; ?>
+    </ul>
 
-    public function work(){
-        for($i=0; $i<10; $i++){
-            $this->logger->log($i);
-        }
-    }
-}
-
-class ConsoleLogger implements Logger {
-    public function log($message){
-        echo $message . "\n";
-    }
-}
-
-interface Logger {
-    public function log($message);
-}
-
-
-///////////////////////
-
-class NothingLogger implements Logger {
-    public function log($message){
-
-    }
-}
-
-
-$consoleLogger = new ConsoleLogger();
-$nothingLogger = new NothingLogger();
-$job = new Job($consoleLogger);
-$job->work();
+<?php include 'partials/footer.php'; ?>
