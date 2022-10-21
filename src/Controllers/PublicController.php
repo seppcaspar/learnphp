@@ -5,14 +5,14 @@ namespace App\Controllers;
 class PublicController {
 
     public function index(){
-        include 'views/index.php';
+        view('index');
     }
 
     public function page1(){
-        include 'views/page1.php';
+        view('page1');
     }
 
     public function page2(){
-        include 'views/page2.php';
+        view('page2');
     }
 }

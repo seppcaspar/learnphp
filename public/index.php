@@ -7,7 +7,7 @@ spl_autoload_register(function($class){
     $class = substr($class, strlen('App\\'));
     require_once "src/$class.php";
 });
-
+require 'helpers.php';
 require 'routes.php';
 
 $router = new Router($_SERVER['REQUEST_URI']);
