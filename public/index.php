@@ -1,5 +1,13 @@
 <?php
 
+//require_once 'src/Cat.php';
+spl_autoload_register();
+
+$cat = new Cat();
+
+var_dump($cat);
+die;
+
 switch($_SERVER['REQUEST_URI']){
     case '/':
         include 'views/index.php';
