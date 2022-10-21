@@ -2,6 +2,6 @@
 
 namespace App;
 
-class Cat {
+class Dog {
 
 }
