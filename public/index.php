@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\ArticleController;
 use App\Router;
 
 spl_autoload_register(function($class){
@@ -7,21 +8,21 @@ spl_autoload_register(function($class){
     require_once "src/$class.php";
 });
 
-Router::addRoute();
+require 'routes.php';
 
-die;
-
-switch($_SERVER['REQUEST_URI']){
-    case '/':
-        include 'views/index.php';
-        break;
-    case '/page1':
-        include 'views/page1.php';
-        break;
-    case '/page2':
-        include 'views/page2.php';
-        break;
-    default:
-        echo '404';
-        break;
+$router = new Router($_SERVER['REQUEST_URI']);
+$match = $router->match();
+if($match){
+    if(is_callable($match['action'])){
+        call_user_func($match['action']);
+    }
+    if(is_array($match['action'])){
+        $class = $match['action'][0];
+        $method = $match['action'][1];
+        $controller = new $class();
+        $controller->$method();
+    }
+} else {
+    http_response_code(404);
+    echo '404';
 }
