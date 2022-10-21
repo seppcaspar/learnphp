@@ -1,19 +1,14 @@
 <?php
 
+use App\Router;
+
 spl_autoload_register(function($class){
     $class = substr($class, strlen('App\\'));
     require_once "src/$class.php";
 });
 
-use App\Birds\Pidgeon as Bird;
+Router::addRoute();
 
-$cat = new App\Cat();
-$dog = new App\Dog();
-$bird = new Bird();
-
-var_dump($cat);
-var_dump($dog);
-var_dump($bird);
 die;
 
 switch($_SERVER['REQUEST_URI']){
