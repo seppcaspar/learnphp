@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
-class User {
+use App\DB;
 
+class User extends Model {
+    protected static $table = 'users';
 }
