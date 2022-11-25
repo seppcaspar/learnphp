@@ -19,6 +19,20 @@
                     <a class="nav-link" href="/articles">Articles</a>
                 </li>
             </ul>
+            <ul class="navbar-nav ms-auto">
+                <?php if(auth()): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><?=auth()->email?></a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
 </nav>
