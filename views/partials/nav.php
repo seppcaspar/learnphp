@@ -1,38 +1,73 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Kaspari Blogi</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/page1">Page 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/page2">Page 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/articles">Articles</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <?php if(auth()): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><?=auth()->email?></a>
-                    </li>
-                <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="/" class="navbar-item">
+        Home
+      </a>
+
+      <a href="/about" class="navbar-item">
+        About
+      </a>
+      <a href="/form" class="navbar-item">
+        Form
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Admin
+        </a>
+
+             <div class="navbar-dropdown">
+               <a href="/admin/posts" class="navbar-item">
+                 Posts
+               </a>
+              
+               <a href="/admin/users" class="navbar-item">
+                 Users
+               </a>
+            </div>
+      </div>
     </div>
+
+    <div class="navbar-end">
+      <?php if(auth()): ?>
+        <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <?= auth()->email ?>
+        </a>
+
+        <div class="navbar-dropdown">
+          <a href="/logout" class="navbar-item">
+            logout
+          </a>
+         
+        </div>
+      </div>
+      <?php else : ?>
+      <div class="navbar-item">
+        <div class="buttons">
+          <a href="/register" class="button is-primary">
+            <strong>Sign up</strong>
+          </a>
+          <a href="/login" class="button is-light">
+            Log in
+          </a>
+        </div>
+      </div>
+      
+    </div>
+    <?php endif ?>
+  </div>
 </nav>

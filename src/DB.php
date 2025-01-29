@@ -2,74 +2,93 @@
 
 namespace App;
 
+use App\Models\Post;
 use PDO;
+use PDOException;
+use stdClass;
 
-class DB {
-    protected $conn;
+class DB
+{
+    private $conn;
 
     public function __construct()
     {
-        $this->conn = new PDO('sqlite:database.sqlite');
-        // set the PDO error mode to exception
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            $this->conn = new PDO("sqlite:db.sqlite");
+            // set the PDO error mode to exception
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
     }
 
-    public function all($table, $model){
-        $stmt = $this->conn->prepare("SELECT * FROM $table");
+    public function all($tabel, $class)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $tabel");
         $stmt->execute();
-        
+
+
         // set the resulting array to associative
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
         return $stmt->fetchAll();
     }
 
-    public function find($table, $model, $id){
-        $stmt = $this->conn->prepare("SELECT * FROM $table WHERE id=$id");
+    public function find(string $tabel, string $class, $id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $tabel WHERE id=$id");
         $stmt->execute();
-        
+
+
         // set the resulting array to associative
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
         return $stmt->fetch();
     }
-
-    public function where($table, $model, $field, $value){
-        $stmt = $this->conn->prepare("SELECT * FROM $table WHERE $field='$value'");
+    public function where(string $tabel, string $class, $fieldName, $value)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM $tabel WHERE $fieldName='$value'");
         $stmt->execute();
-        
+
+
         // set the resulting array to associative
-        $stmt->setFetchMode(PDO::FETCH_CLASS, $model);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $class);
         return $stmt->fetchAll();
     }
 
-    public function insert($table, $fields){
+
+
+    public function insert($table, $fields)
+    {
+        unset($fields['id']);
+
         $fieldNames = array_keys($fields);
-        $fieldNamesText = implode(',', $fieldNames);
+        $fieldNamesText = implode(",", $fieldNames);
         $fieldValuesText = implode("','", $fields);
         $sql = "INSERT INTO $table ($fieldNamesText)
-        VALUES ('$fieldValuesText')";
-        // use exec() because no results are returned
+                VALUES ('$fieldValuesText')";
+
         $this->conn->exec($sql);
     }
-
-    public function update($table, $fields, $id){
+    public function update($table, $fields)
+    {
+        $id = $fields['id'];
+        unset($fields['id']);
         $updateText = '';
-        foreach($fields as $key => $value){
-            $updateText .= "$key='$value',";
+        foreach($fields as $fieldName=>$fieldValue){
+            $updateText .= "$fieldName='$fieldValue',";
         }
-        $updateText = substr($updateText, 0, -1);
-        $sql = "UPDATE $table SET $updateText WHERE id=$id";
+        $updateText = rtrim($updateText, ',');
 
+        $sql = "UPDATE $table SET $updateText WHERE id=$id";
         // Prepare statement
-        $stmt = $this->conn->prepare($sql);
+        $stmt =$this->conn->prepare($sql);
 
         // execute the query
         $stmt->execute();
-
     }
     public function delete($table, $id){
         $sql = "DELETE FROM $table WHERE id=$id";
 
-        // use exec() because no results are returned
+  // use exec() because no results are returned
         $this->conn->exec($sql);
     }
 }

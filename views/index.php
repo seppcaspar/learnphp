@@ -1,18 +1,24 @@
-<?php include 'partials/header.php'; ?>
-    <h1>Hello, world!</h1>
+<?php include __DIR__ . '/partials/header.php' ?>
+<div class="container">
+    <div class="columns">
+        <?php foreach ($posts as $post) : ?>
+            <div class="column is-3">
+                <div class="card mb_3">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            <?= $post->title ?>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                        <?= $post->body ?>
 
-    <form action="/page1" method="GET">
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name">
-        </div>
-        <input type="submit" class="btn btn-primary">
-    </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
 
-    <ul>
-        <?php for($i=0;$i<100; $i++): ?>
-            <li>Item <?= $i ?></li>
-        <?php endfor; ?>
-    </ul>
-
-<?php include 'partials/footer.php'; ?>
+    </div>
+</div>
+<?php include __DIR__ . '/partials/footer.php' ?>

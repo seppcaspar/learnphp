@@ -5,13 +5,15 @@ namespace App\Models;
 use App\DB;
 
 class User extends Model {
-    protected static $table = 'users';
+    static $table = 'users';
+    public $id;
+    public $email;
+    public $password;
 
     public static function auth(){
-        if(isset($_SESSION['userid'])){
-            return self::find($_SESSION['userid']);
-        } else {
-            return false;
+        if(isset($_SESSION['user'])){
+            return User::find($_SESSION['user']);
         }
+        return false;
     }
 }

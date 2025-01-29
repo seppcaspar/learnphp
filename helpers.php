@@ -2,9 +2,9 @@
 
 use App\Models\User;
 
-function view($viewName, $vars=[]){
-    extract($vars);
-    include "views/$viewName.php";
+function view($viewName, $variables=[]){
+    extract($variables);
+    include __DIR__ . "/views/$viewName.php";
 }
 
 function auth(){
